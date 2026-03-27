@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quick Reference Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #f5f5f5;
+            color: #000;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #000;
+            color: #fff;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1em;
+            opacity: 0.8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 15px 30px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .tab-button:hover {
+            background: #f0f0f0;
+        }
+
+        .tab-button.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+            background: #fff;
+            padding: 40px;
+            border: 3px solid #000;
+            min-height: 500px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #000;
+            padding-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+        }
+
+        .black-box {
+            background: #000;
+            color: #fff;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f9f9f9;
+            padding: 25px;
+            border-left: 4px solid #000;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateX(5px);
+            background: #f0f0f0;
+        }
+
+        .card h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .card ul {
+            list-style-position: inside;
+            margin-top: 10px;
+        }
+
+        .card li {
+            margin: 8px 0;
+        }
+
+        .expandable {
+            background: #fff;
+            border: 2px solid #000;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+
+        .expandable-header {
+            padding: 20px;
+            font-weight: 700;
+            font-size: 1.2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+            color: #fff;
+        }
+
+        .expandable-header:hover {
+            background: #333;
+        }
+
+        .expandable-header::after {
+            content: '+';
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .expandable.open .expandable-header::after {
+            transform: rotate(45deg);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .expandable.open .expandable-content {
+            max-height: 5000px;
+            padding: 20px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tool-card {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 0 #000;
+        }
+
+        .tool-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .warning-box p {
+            color: #856404;
+        }
+
+        ul {
+            margin: 10px 0 10px 20px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-bad {
+            background: #f9f9f9;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #cc0000;
+        }
+
+        .example-good {
+            background: #f9f9f9;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #00aa00;
+        }
+
+        .example-bad h4 {
+            color: #cc0000;
+            margin-bottom: 10px;
+        }
+
+        .example-good h4 {
+            color: #00aa00;
+            margin-bottom: 10px;
+        }
+
+        .step-box {
+            background: #000;
+            color: #fff;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .step-box h4 {
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            .grid, .tools-grid, .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI QUICK REFERENCE</h1>
+            <p>Your Complete Interactive Guide to Artificial Intelligence</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('basics')">BASICS</button>
+            <button class="tab-button" onclick="showTab('types')">AI TYPES</button>
+            <button class="tab-button" onclick="showTab('models')">MODEL TYPES</button>
+            <button class="tab-button" onclick="showTab('tools')">TOOLS</button>
+            <button class="tab-button" onclick="showTab('practical')">PRACTICAL USE</button>
+            <button class="tab-button" onclick="showTab('ethics')">ETHICS</button>
+        </div>
+
+        <!-- BASICS TAB -->
+        <div id="basics" class="tab-content active">
+            <h2>UNDERSTANDING AI FUNDAMENTALS</h2>
+            
+            <div class="black-box">
+                <h3 style="margin-top: 0;">HOW AI WORKS</h3>
+                <div class="grid">
+                    <div>
+                        <h4>Model</h4>
+                        <p>A trained mathematical system that maps input to output.</p>
+                    </div>
+                    <div>
+                        <h4>Training</h4>
+                        <p>Feeding large amounts of data so the model learns patterns.</p>
+                    </div>
+                    <div>
+                        <h4>Parameters</h4>
+                        <p>Internal numbers storing what the model learned.</p>
+                    </div>
+                    <div>
+                        <h4>Inference</h4>
+                        <p>Using the trained model to produce an answer.</p>
+                    </div>
+                    <div>
+                        <h4>Tokens</h4>
+                        <p>Small chunks of text processed by language models.</p>
+                    </div>
+                    <div>
+                        <h4>Context Window</h4>
+                        <p>How much information the model can consider at once.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h4>What AI Is</h4>
+                    <p><strong>Artificial Intelligence (AI)</strong> is software that learns patterns from data and uses those patterns to make predictions, generate content, or classify information.</p>
+                    <p style="margin-top: 15px;">Think of AI as an extremely advanced pattern engine—not a thinking being.</p>
+                </div>
+
+                <div class="card">
+                    <h4>What AI Does</h4>
+                    <ul>
+                        <li>Predict what is statistically likely</li>
+                        <li>Imitate patterns it has seen before</li>
+                        <li>Generate content even when wrong</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>What AI Does NOT Do</h4>
+                    <ul>
+                        <li>Think</li>
+                        <li>Understand meaning</li>
+                        <li>Feel emotion</li>
+                        <li>Have intent or awareness</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Key Technical Concepts</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Neural Networks</h4>
+                            <p>Systems inspired by the human brain, made of interconnected nodes that process information.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Algorithms</h4>
+                            <p>Step-by-step procedures for solving problems within AI systems.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Datasets</h4>
+                            <p>Large collections of data used to train AI models. Quality impacts performance.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Hallucinations</h4>
+                            <p>When AI generates false information that sounds plausible but isn't true.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Bias</h4>
+                            <p>AI can reflect and amplify biases from training data.</p>
+                        </div>
+                        <div class="card">
+                            <h4>AGI (Artificial General Intelligence)</h4>
+                            <p>Hypothetical AI with human-level intelligence across all domains. Can learn any intellectual task a human can. Does not exist yet. All current AI is "Narrow AI" - designed for specific tasks only.</p>
+                        </div>
+                        <div class="card">
+                            <h4>ASI (Artificial Superintelligence)</h4>
+                            <p>Theoretical AI that surpasses human intelligence in all areas. Beyond AGI. Purely speculative - not close to existing. Subject of much debate about risks and benefits.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Fine-tuning vs RAG</h4>
+                            <p><strong>Fine-tuning:</strong> Adjusting a model with specific data by retraining it.</p>
+                            <p style="margin-top: 10px;"><strong>RAG (Retrieval-Augmented Generation):</strong> Giving the model external knowledge to reference in real-time. The AI searches a database or documents, retrieves relevant information, then generates a response using that context. Like giving AI a library to consult before answering.</p>
+                        </div>
+                        <div class="card">
+                            <h4>LLM (Large Language Model)</h4>
+                            <p>AI models trained on massive amounts of text data. Can generate human-like text, answer questions, write code. Examples: GPT-4, Claude, Llama. "Large" refers to billions of parameters.</p>
+                        </div>
+                        <div class="card">
+                            <h4>NLP (Natural Language Processing)</h4>
+                            <p>The field of AI focused on understanding and generating human language. Powers chatbots, translation, sentiment analysis, and text summarization.</p>
+                        </div>
+                        <div class="card">
+                            <h4>CV (Computer Vision)</h4>
+                            <p>AI that can "see" and interpret images and video. Used for facial recognition, medical imaging, autonomous vehicles, and object detection.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Few-shot & Zero-shot Learning</h4>
+                            <p><strong>Few-shot:</strong> AI performs a task after seeing just a few examples. <strong>Zero-shot:</strong> AI performs a task it's never been explicitly trained on. This is how you use AI daily—give it 2-3 examples and it understands the pattern.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Learning Methods</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Supervised Learning</h4>
+                            <p>AI learns from labeled examples (input-output pairs).</p>
+                            <p><strong>Example:</strong> Email spam detection</p>
+                        </div>
+                        <div class="card">
+                            <h4>Unsupervised Learning</h4>
+                            <p>AI finds patterns in data without labeled examples.</p>
+                            <p><strong>Example:</strong> Customer segmentation</p>
+                        </div>
+                        <div class="card">
+                            <h4>Reinforcement Learning</h4>
+                            <p>AI learns through trial and error, receiving rewards and penalties.</p>
+                            <p><strong>Example:</strong> Game-playing AI, robotics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI TYPES TAB -->
+        <div id="types" class="tab-content">
+            <h2>MAIN TYPES OF AI</h2>
+
+            <div class="expandable">
+                <div class="expandable-header">Generative AI</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> AI that creates new content from scratch.</p>
+                    <ul>
+                        <li>Generates text, images, audio, video, and code</li>
+                        <li>Examples: ChatGPT, DALL-E, Midjourney, Claude</li>
+                        <li>Uses patterns learned from training data to create original outputs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Machine Learning (ML)</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> Systems that learn patterns from data to make predictions.</p>
+                    <ul>
+                        <li>Learns patterns from data</li>
+                        <li>Improves with more examples</li>
+                        <li>Outputs probabilities, not certainties</li>
+                        <li>Powers recommendation engines, fraud detection</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Deep Learning</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> A type of ML using neural networks with many layers.</p>
+                    <ul>
+                        <li>Used for images, speech, and language</li>
+                        <li>Requires large amounts of data</li>
+                        <li>Powers facial recognition, voice assistants</li>
+                        <li>Foundation for most modern AI breakthroughs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Predictive/Discriminative AI</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> AI that classifies data or predicts outcomes.</p>
+                    <ul>
+                        <li>Classifies or predicts outcomes</li>
+                        <li>Used for fraud detection, credit scoring</li>
+                        <li>Makes recommendations based on patterns</li>
+                        <li>Doesn't create new content, analyzes existing data</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Narrow AI</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> AI designed for specific tasks only.</p>
+                    <ul>
+                        <li>Built for specific tasks only</li>
+                        <li>All AI in use today is Narrow AI</li>
+                        <li>Cannot transfer skills to other domains</li>
+                        <li>Examples: Chess AI, spam filters, voice recognition</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Multimodal AI</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> AI that works across multiple types of data.</p>
+                    <ul>
+                        <li>Works across text, image, audio, video</li>
+                        <li>Can understand and generate multiple formats</li>
+                        <li>Examples: GPT-4, Gemini, Claude</li>
+                        <li>Can analyze an image and describe it in text</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Agentic AI</div>
+                <div class="expandable-content">
+                    <p><strong>What it is:</strong> AI that can take actions autonomously to achieve goals, not just respond to prompts.</p>
+                    <ul>
+                        <li>Can use tools (browse web, run code, access databases)</li>
+                        <li>Makes decisions about which actions to take</li>
+                        <li>Works through multi-step tasks without constant human direction</li>
+                        <li>Examples: AI that can research a topic, book appointments, or debug code end-to-end</li>
+                        <li>Often called "AI agents" - think of them as AI assistants with agency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODEL TYPES TAB -->
+        <div id="models" class="tab-content">
+            <h2>COMMON AI MODEL TYPES</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h4>Language Models (LLM)</h4>
+                    <ul>
+                        <li>Creates new content</li>
+                        <li>Answers questions</li>
+                        <li>Writes code</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Examples:</strong> GPT-4, Claude, Llama</p>
+                </div>
+
+                <div class="card">
+                    <h4>Image Models</h4>
+                    <ul>
+                        <li>Generate or analyze images</li>
+                        <li>Object recognition</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Examples:</strong> DALL-E, Stable Diffusion, Midjourney</p>
+                </div>
+
+                <div class="card">
+                    <h4>Audio Models</h4>
+                    <ul>
+                        <li>Text-to-speech</li>
+                        <li>Sound and music generation</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Examples:</strong> ElevenLabs, Whisper</p>
+                </div>
+
+                <div class="card">
+                    <h4>Video Models</h4>
+                    <ul>
+                        <li>Create or analyze video</li>
+                        <li>Built from image + motion models</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Examples:</strong> Sora, Runway</p>
+                </div>
+
+                <div class="card">
+                    <h4>Embedding Models</h4>
+                    <ul>
+                        <li>Turn meaning into numbers</li>
+                        <li>Used for search and similarity</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Used in:</strong> Semantic search</p>
+                </div>
+
+                <div class="card">
+                    <h4>API</h4>
+                    <ul>
+                        <li>Application Programming Interface</li>
+                        <li>Connects different software</li>
+                        <li>How you access AI programmatically</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOOLS TAB -->
+        <div id="tools" class="tab-content">
+            <h2>AI TOOLS &amp; PLATFORMS</h2>
+
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h4>ChatGPT</h4>
+                    <p><strong>Best for:</strong> General conversation, creative writing, brainstorming, coding assistance</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>Claude</h4>
+                    <p><strong>Best for:</strong> Long-form content, technical writing, code analysis, nuanced conversations</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>Gemini</h4>
+                    <p><strong>Best for:</strong> Google integration, multimodal tasks, research, data analysis</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>Midjourney</h4>
+                    <p><strong>Best for:</strong> Artistic images, creative visuals, stylized artwork</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>Stable Diffusion</h4>
+                    <p><strong>Best for:</strong> Open-source image generation, customizable, local deployment</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>GitHub Copilot</h4>
+                    <p><strong>Best for:</strong> Code completion, programming assistance, developer productivity</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>DALL-E</h4>
+                    <p><strong>Best for:</strong> Realistic images, precise control, photorealistic generation</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>Perplexity</h4>
+                    <p><strong>Best for:</strong> Research, cited answers, web search with AI</p>
+                </div>
+
+                <div class="tool-card">
+                    <h4>ElevenLabs</h4>
+                    <p><strong>Best for:</strong> Voice synthesis, text-to-speech, voice cloning</p>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Open-Source vs Closed-Source Models</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Closed-Source (Proprietary)</h4>
+                            <p><strong>What it is:</strong> Models owned and controlled by companies. You access them through APIs or web interfaces.</p>
+                            <p style="margin-top: 10px;"><strong>Examples:</strong> ChatGPT, Claude, Gemini, Midjourney</p>
+                            <p style="margin-top: 10px;"><strong>Pros:</strong> Most powerful, constantly updated, easy to use, no setup required</p>
+                            <p style="margin-top: 10px;"><strong>Cons:</strong> Costs money, data goes to company servers, limited customization, vendor lock-in</p>
+                        </div>
+                        <div class="card">
+                            <h4>Open-Source</h4>
+                            <p><strong>What it is:</strong> Models with publicly available code and weights. You can download and run them yourself.</p>
+                            <p style="margin-top: 10px;"><strong>Examples:</strong> Llama, Mistral, Stable Diffusion, Whisper</p>
+                            <p style="margin-top: 10px;"><strong>Pros:</strong> Free to use, complete control, data stays private, full customization, run locally</p>
+                            <p style="margin-top: 10px;"><strong>Cons:</strong> Requires technical setup, needs powerful hardware, often less capable than closed-source, you maintain it</p>
+                        </div>
+                    </div>
+
+                    <div class="step-box" style="margin-top: 20px;">
+                        <h4>Which Should You Use?</h4>
+                        <p><strong>Choose Closed-Source if:</strong> You want the best performance, need it to work immediately, don't have technical resources, are okay with subscription costs</p>
+                        <p style="margin-top: 15px;"><strong>Choose Open-Source if:</strong> You handle sensitive data, need complete control, have technical expertise, want to avoid vendor lock-in, need to customize extensively</p>
+                        <p style="margin-top: 15px;"><strong>Hybrid approach:</strong> Many companies use closed-source for general tasks and open-source for sensitive/specialized work.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Running AI Locally on Your Computer</div>
+                <div class="expandable-content">
+                    <div class="step-box">
+                        <h4>What Does "Running Locally" Mean?</h4>
+                        <p>Instead of sending your prompts to a company's servers (like ChatGPT or Claude), you download an AI model and run it entirely on your own computer. Your data never leaves your machine.</p>
+                    </div>
+
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Why Run AI Locally?</h4>
+                            <ul>
+                                <li><strong>Privacy:</strong> Sensitive data stays on your computer</li>
+                                <li><strong>Cost:</strong> Free after initial setup, no monthly subscriptions</li>
+                                <li><strong>Control:</strong> Full customization, no usage limits</li>
+                                <li><strong>Offline access:</strong> Works without internet</li>
+                                <li><strong>No censorship:</strong> No content restrictions or filters</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <h4>The Easiest Way: Ollama</h4>
+                            <p><strong>Ollama</strong> is like "App Store for AI models" - makes running local models as easy as installing an app.</p>
+                            <p style="margin-top: 10px;"><strong>What it does:</strong> One-click download and run of popular models (Llama, Mistral, etc.)</p>
+                            <p style="margin-top: 10px;"><strong>Works on:</strong> Mac, Windows, Linux</p>
+                            <p style="margin-top: 10px;"><strong>Free:</strong> Completely open-source</p>
+                        </div>
+
+                        <div class="card">
+                            <h4>Hardware Requirements</h4>
+                            <p><strong>Minimum (small models):</strong></p>
+                            <ul>
+                                <li>16GB RAM</li>
+                                <li>10-20GB storage per model</li>
+                                <li>Modern CPU (any from last 5 years)</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>Recommended (medium models):</strong></p>
+                            <ul>
+                                <li>32GB+ RAM</li>
+                                <li>Graphics card with 8GB+ VRAM</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>High-end (large models):</strong></p>
+                            <ul>
+                                <li>64GB+ RAM</li>
+                                <li>High-end GPU (RTX 4090, etc.)</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <h4>Getting Started with Ollama</h4>
+                            <p><strong>Step 1:</strong> Download Ollama from ollama.com</p>
+                            <p style="margin-top: 10px;"><strong>Step 2:</strong> Install like any normal app</p>
+                            <p style="margin-top: 10px;"><strong>Step 3:</strong> Open terminal and type: <code>ollama run llama3</code></p>
+                            <p style="margin-top: 10px;"><strong>Step 4:</strong> Wait for download (one time), then chat!</p>
+                            <p style="margin-top: 15px;">That's it. No API keys, no accounts, no configuration.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-box" style="margin-top: 20px;">
+                        <h4>Popular Models to Try</h4>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Llama 3 (8B):</strong> Good all-around model, runs on most laptops</li>
+                            <li><strong>Mistral (7B):</strong> Fast and capable, great for coding</li>
+                            <li><strong>Phi-3:</strong> Tiny but surprisingly good, runs anywhere</li>
+                            <li><strong>CodeLlama:</strong> Specialized for programming tasks</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Note:</strong> The "B" means billions of parameters - bigger = smarter but slower/heavier.</p>
+                    </div>
+
+                    <div class="example-bad" style="margin-top: 20px;">
+                        <h4>When NOT to Run Locally</h4>
+                        <ul>
+                            <li>You need the absolute best quality (cloud models like GPT-4 are still better)</li>
+                            <li>You don't have powerful hardware</li>
+                            <li>You want zero setup - just type and go</li>
+                            <li>You need features like web browsing, image generation (local models have limitations)</li>
+                            <li>Your team needs to share the same AI system</li>
+                        </ul>
+                    </div>
+
+                    <div class="example-good" style="margin-top: 20px;">
+                        <h4>When Running Locally Makes Sense</h4>
+                        <ul>
+                            <li>You work with confidential data (legal, medical, financial)</li>
+                            <li>You want to avoid monthly AI subscription costs</li>
+                            <li>You need offline access</li>
+                            <li>You're developing AI applications and need full control</li>
+                            <li>You want to experiment with fine-tuning models</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICAL USE TAB -->
+        <div id="practical" class="tab-content">
+            <h2>PRACTICAL APPLICATIONS</h2>
+
+            <div class="expandable">
+                <div class="expandable-header">Common Use Cases</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Content Creation</h4>
+                            <p>Blog posts, social media, email copy, product descriptions, creative writing</p>
+                        </div>
+                        <div class="card">
+                            <h4>Data Analysis</h4>
+                            <p>Trend identification, data summarization, insights extraction, predictions</p>
+                        </div>
+                        <div class="card">
+                            <h4>Coding Assistance</h4>
+                            <p>Code generation, debugging, documentation, refactoring</p>
+                        </div>
+                        <div class="card">
+                            <h4>Customer Service</h4>
+                            <p>Chatbots, automated responses, sentiment analysis, ticket routing</p>
+                        </div>
+                        <div class="card">
+                            <h4>Research</h4>
+                            <p>Information synthesis, literature review, hypothesis generation</p>
+                        </div>
+                        <div class="card">
+                            <h4>Design &amp; Creative</h4>
+                            <p>Image generation, logo design, mockups, concept art</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">AI in Marketing</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Personalization</h4>
+                            <p>Dynamic content customization, personalized campaigns, product recommendations</p>
+                        </div>
+                        <div class="card">
+                            <h4>Content Generation</h4>
+                            <p>Ad copy, social posts, landing pages, email sequences, SEO content</p>
+                        </div>
+                        <div class="card">
+                            <h4>Customer Segmentation</h4>
+                            <p>Audience clusters, predictive lead scoring, behavior-based targeting</p>
+                        </div>
+                        <div class="card">
+                            <h4>Predictive Analytics</h4>
+                            <p>Forecast trends, customer lifetime value, churn prediction</p>
+                        </div>
+                        <div class="card">
+                            <h4>Chatbots &amp; Support</h4>
+                            <p>24/7 customer engagement, lead qualification, automated FAQ</p>
+                        </div>
+                        <div class="card">
+                            <h4>Marketing Automation</h4>
+                            <p>Workflow optimization, smart scheduling, A/B test analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="black-box">
+                <h3 style="margin-top: 0;">Prompt Engineering Basics</h3>
+                <ul>
+                    <li><strong>Be Specific:</strong> Clear, detailed requests get better results</li>
+                    <li><strong>Provide Context:</strong> Share relevant background information</li>
+                    <li><strong>Use Examples:</strong> Show the AI what you want</li>
+                    <li><strong>Iterate:</strong> Refine prompts based on responses</li>
+                    <li><strong>Set Constraints:</strong> Specify length, tone, format, style</li>
+                    <li><strong>Ask for Reasoning:</strong> Request step-by-step thinking</li>
+                    <li><strong>Define the Role:</strong> "You are an expert in X"</li>
+                </ul>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Understanding Temperature &amp; Creativity Settings</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>What is Temperature?</h4>
+                            <p>A setting that controls how creative or conservative AI responses are. Scale usually 0 to 1 (or 0 to 2).</p>
+                            <p style="margin-top: 10px;"><strong>Low temperature (0-0.3):</strong> More predictable, factual, consistent. Best for data analysis, coding, technical writing.</p>
+                            <p style="margin-top: 10px;"><strong>High temperature (0.7-1.0):</strong> More creative, varied, unpredictable. Best for brainstorming, creative writing, marketing copy.</p>
+                        </div>
+                        <div class="card">
+                            <h4>When to Adjust Temperature</h4>
+                            <p><strong>Use LOW for:</strong> Math problems, code debugging, factual summaries, legal documents, technical documentation</p>
+                            <p style="margin-top: 10px;"><strong>Use HIGH for:</strong> Creative stories, marketing taglines, brainstorming ideas, poetry, exploring possibilities</p>
+                            <p style="margin-top: 10px;"><strong>Default (0.5-0.7):</strong> Works for most everyday tasks</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Token Limits & Context Windows</div>
+                <div class="expandable-content">
+                    <div class="step-box">
+                        <h4>What Are Tokens?</h4>
+                        <p>Tokens are chunks of text that AI processes. Roughly: 1 token = 4 characters or 0.75 words.</p>
+                        <p style="margin-top: 10px;"><strong>Example:</strong> "Hello world" = 2 tokens. "Artificial Intelligence" = 4 tokens.</p>
+                    </div>
+
+                    <div class="step-box">
+                        <h4>Why Token Limits Matter</h4>
+                        <p>Every AI model has a maximum number of tokens it can process at once (input + output combined). This is called the "context window."</p>
+                        <p style="margin-top: 10px;"><strong>Example limits:</strong></p>
+                        <ul style="margin-top: 10px;">
+                            <li>GPT-3.5: ~4,000 tokens (~3,000 words)</li>
+                            <li>GPT-4: ~8,000-128,000 tokens depending on version</li>
+                            <li>Claude: ~200,000 tokens (~150,000 words)</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-box">
+                        <h4>What Happens When You Hit the Limit</h4>
+                        <p>The AI either:</p>
+                        <ul style="margin-top: 10px;">
+                            <li>Cuts off mid-response (output stops abruptly)</li>
+                            <li>Forgets earlier parts of the conversation</li>
+                            <li>Refuses to process your request</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Solution:</strong> Break large tasks into smaller chunks, summarize previous context, or use a model with a larger context window.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Real Prompt Examples: Before & After</div>
+                <div class="expandable-content">
+                    <div class="example-bad">
+                        <h4>VAGUE PROMPT (Gets Poor Results)</h4>
+                        <p style="font-style: italic; margin-bottom: 15px;">"Write something about marketing."</p>
+                        <p><strong>Why it fails:</strong> No context, no constraints, no direction. AI has to guess what you want.</p>
+                    </div>
+
+                    <div class="example-good">
+                        <h4>SPECIFIC PROMPT (Gets Great Results)</h4>
+                        <p style="font-style: italic; margin-bottom: 15px;">"Write a 3-paragraph email to marketing managers explaining how AI can automate social media scheduling. Use a professional but friendly tone. Include one specific example of time saved."</p>
+                        <p><strong>Why it works:</strong> Clear purpose, defined audience, specific format, tone specified, concrete requirement included.</p>
+                    </div>
+
+                    <div class="example-bad">
+                        <h4>VAGUE PROMPT (Gets Poor Results)</h4>
+                        <p style="font-style: italic; margin-bottom: 15px;">"Analyze this data."</p>
+                        <p><strong>Why it fails:</strong> What kind of analysis? What should it focus on? What format?</p>
+                    </div>
+
+                    <div class="example-good">
+                        <h4>SPECIFIC PROMPT (Gets Great Results)</h4>
+                        <p style="font-style: italic; margin-bottom: 15px;">"Analyze this sales data and identify the top 3 trends. Focus on month-over-month growth patterns. Present findings as bullet points with specific percentages. Flag any anomalies that need investigation."</p>
+                        <p><strong>Why it works:</strong> Specifies analysis type, focus area, output format, and what to prioritize.</p>
+                    </div>
+
+                    <div class="example-bad">
+                        <h4>VAGUE PROMPT (Gets Poor Results)</h4>
+                        <p style="font-style: italic; margin-bottom: 15px;">"Help me write code."</p>
+                        <p><strong>Why it fails:</strong> What language? What should it do? What's the context?</p>
+                    </div>
+
+                    <div class="example-good">
+                        <h4>SPECIFIC PROMPT (Gets Great Results)</h4>
+                        <p style="font-style: italic; margin-bottom: 15px;">"Write a Python function that takes a list of email addresses and returns only the valid ones. Use regex for validation. Include comments explaining each step. Handle common edge cases like missing @ symbols."</p>
+                        <p><strong>Why it works:</strong> Language specified, clear input/output, implementation details, documentation requirements, edge cases considered.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Step-by-Step: Your First AI Conversation</div>
+                <div class="expandable-content">
+                    <div class="step-box">
+                        <h4>STEP 1: Start with a Clear Goal</h4>
+                        <p>Before you type anything, ask yourself: "What specific outcome do I want?"</p>
+                        <p style="margin-top: 10px;"><strong>Example goal:</strong> "I need a professional email declining a meeting request."</p>
+                    </div>
+
+                    <div class="step-box">
+                        <h4>STEP 2: Provide Context</h4>
+                        <p>Give the AI background information it needs to help you effectively.</p>
+                        <p style="margin-top: 10px; font-style: italic;">"I'm a marketing manager. A vendor wants to meet about a product we're not interested in. I want to decline politely but firmly, keeping the door open for future opportunities."</p>
+                    </div>
+
+                    <div class="step-box">
+                        <h4>STEP 3: Specify Format and Constraints</h4>
+                        <p>Tell the AI exactly how you want the output structured.</p>
+                        <p style="margin-top: 10px; font-style: italic;">"Write this as a 2-3 paragraph email. Professional tone. Keep it under 150 words."</p>
+                    </div>
+
+                    <div class="step-box">
+                        <h4>STEP 4: Review and Refine</h4>
+                        <p>The first output is rarely perfect. Tell the AI what to adjust.</p>
+                        <p style="margin-top: 10px; font-style: italic;">"Make it warmer" or "Remove the second paragraph" or "Change the opening line to be more direct."</p>
+                    </div>
+
+                    <div class="step-box">
+                        <h4>STEP 5: Always Verify</h4>
+                        <p>Never use AI output without reviewing it. Check for accuracy, tone, and appropriateness. Make it yours.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">Common Mistakes to Avoid</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Treating AI Like a Search Engine</h4>
+                            <p>AI generates answers, it doesn't retrieve facts. Always verify factual claims, especially dates, statistics, and technical details.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Accepting the First Response</h4>
+                            <p>AI can do better with guidance. If the output isn't quite right, ask for adjustments rather than starting over.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Being Too Polite</h4>
+                            <p>You don't need to say "please" and "thank you." Be direct and clear. AI doesn't have feelings.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Expecting Mind Reading</h4>
+                            <p>AI doesn't know your context unless you provide it. The more specific you are, the better the results.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Using It for Everything</h4>
+                            <p>Some tasks are faster to do yourself. AI is best for complex, time-consuming, or creative work.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Trusting Without Verifying</h4>
+                            <p>AI makes mistakes confidently. Always fact-check important information before using it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">AI Limitations</div>
+                <div class="expandable-content">
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Knowledge Cutoffs</h4>
+                            <p>Models only know information up to their training date.</p>
+                        </div>
+                        <div class="card">
+                            <h4>No True Reasoning</h4>
+                            <p>AI uses pattern matching, not logical reasoning.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Math &amp; Logic Struggles</h4>
+                            <p>Complex calculations can produce errors. Always verify.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Context Limits</h4>
+                            <p>Can only process a limited amount of text at once.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Hallucinations</h4>
+                            <p>AI can confidently generate false information.</p>
+                        </div>
+                        <div class="card">
+                            <h4>No Real-Time Data</h4>
+                            <p>Without search tools, AI doesn't know current events.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETHICS TAB -->
+        <div id="ethics" class="tab-content">
+            <h2>ETHICS &amp; CONSIDERATIONS</h2>
+
+            <div class="warning-box">
+                <h4>Privacy Concerns</h4>
+                <p>Be cautious about sharing sensitive personal information. Assume data you input may be stored and used for training. Never share passwords, financial details, or confidential business information.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Copyright &amp; Ownership</h4>
+                <p>Questions remain about who owns AI-generated content. Many AI-generated outputs cannot be copyrighted. Understand the legal landscape and platform terms before commercial use.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Job Displacement</h4>
+                <p>AI is automating tasks previously done by humans. While some jobs may be eliminated, new roles are emerging. Focus on skills that complement AI: creativity, critical thinking, emotional intelligence.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Environmental Impact</h4>
+                <p>Training large AI models requires significant computational resources and energy. A single training run can emit as much carbon as several cars over their lifetime.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Bias &amp; Fairness</h4>
+                <p>AI systems can perpetuate and amplify biases from training data, leading to unfair outcomes for marginalized groups. Be aware of potential bias in outputs.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Transparency &amp; Accountability</h4>
+                <p>Many AI systems are "black boxes" - their decision-making is opaque. Who is responsible when AI makes mistakes or harmful decisions?</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Misinformation</h4>
+                <p>AI can generate convincing but false information at scale. Deepfakes and synthetic media can deceive. Always verify important information from multiple reliable sources.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Human-AI Relationship</h4>
+                <p>AI should augment human capability, not replace human judgment in critical decisions. Maintain appropriate boundaries in human-AI interaction.</p>
+            </div>
+
+            <div class="black-box" style="margin-top: 40px;">
+                <h3 style="margin-top: 0;">Best Practices for Responsible AI Use</h3>
+                <ul>
+                    <li><strong>Always Verify AI Outputs:</strong> AI generates content confidently even when wrong. Always fact-check critical information before using it.</li>
+                    <li><strong>Protect Privacy:</strong> Don't share sensitive personal or business data. Assume anything you input may be stored and used for training.</li>
+                    <li><strong>Provide Clear Context:</strong> AI works better with specific guidance. Give examples, set constraints, and specify what you want.</li>
+                    <li><strong>Acknowledge AI Use:</strong> Be transparent when content is AI-generated, especially in professional or academic settings.</li>
+                    <li><strong>Review for Bias:</strong> Check outputs for unfair or discriminatory content. AI reflects biases from its training data.</li>
+                    <li><strong>Use AI as a Tool, Not a Decision-Maker:</strong> Maintain human oversight and judgment for important decisions. AI assists, humans decide.</li>
+                    <li><strong>Understand Limitations:</strong> Knowing what AI can't do is as important as knowing what it can. It hallucinates, struggles with logic, and has knowledge cutoffs.</li>
+                    <li><strong>Stay Informed:</strong> AI capabilities and regulations evolve rapidly. What's impossible today may be standard tomorrow.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-size:20px;font-style:bold; line-height:140%;">Learning AI matters because it is shaping jobs, creativity, and decision-making;<br>
+        understanding it gives people more agency over their future.<br><br></p>
+        <p style="margin-top: 20px; opacity: 0.6;">© 2026 Crafted Strategy<br>AI Quick Reference Guide</p>
+    </footer>
+
+    <script>
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Expandable sections
+        document.querySelectorAll('.expandable').forEach(item => {
+            item.querySelector('.expandable-header').addEventListener('click', () => {
+                item.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>
